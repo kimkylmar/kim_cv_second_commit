@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kim_cv/PersinalInfo.dart';
 import 'package:kim_cv/education.dart';
-import 'skills.dart';
+import 'package:kim_cv/skills.dart';
 
 void main() {
   runApp(
@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
               ),
               const Center(
                 child: Text(
-                  "Position:",
+                  "Position 69:",
                   style: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
                     fontSize: 28,
