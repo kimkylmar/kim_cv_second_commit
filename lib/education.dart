@@ -64,7 +64,7 @@ class education extends StatelessWidget {
                       "Secondary Education (JHS & SHS) :",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 25,
+                        fontSize: 22,
                       ),
                     ),
                   ],
@@ -109,7 +109,7 @@ class education extends StatelessWidget {
                     "Philippine College of Science and Technology",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 18,
                     ),
                   ),
                 ),

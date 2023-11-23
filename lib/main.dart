@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:kim_cv/PersinalInfo.dart';
 import 'package:kim_cv/education.dart';
 import 'package:kim_cv/skills.dart';
+import 'package:kim_cv/FormScreen.dart';
 
 void main() {
   runApp(
-    const MaterialApp(
+    MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyApp(),
+      home: FormScreen(),
     ),
   );
 }
@@ -71,7 +72,7 @@ class MyApp extends StatelessWidget {
               ),
               const Center(
                 child: Text(
-                  "Position 69:",
+                  "Position:",
                   style: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255),
                     fontSize: 28,
