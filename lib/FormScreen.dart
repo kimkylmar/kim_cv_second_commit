@@ -34,7 +34,7 @@ class _FormScreenState extends State<FormScreen> {
               children: [
                 CircleAvatar(
                   backgroundImage: AssetImage(
-                    'images/profile.jpg',
+                    'images/pic.jpg',
                   ),
                   radius: 70.0,
                 ),
@@ -80,18 +80,27 @@ class _FormScreenState extends State<FormScreen> {
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Enter Passwdord";
+                      return "Enter Password";
                     } else if (passContoller.text.length < 6) {
                       return "Password should be 6 characters and up";
+                    } else if (!RegExp(
+                            r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$')
+                        .hasMatch(value)) {
+                      return "Password must meet the requirements";
                     }
                   },
                 ),
                 SizedBox(height: 50),
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const MyApp(),
-                    ));
+                    if (_formfield.currentState?.validate() == true) {
+                      if (emailContoller.text == 'kimkyle@email.com' &&
+                          passContoller.text == 'Kimkyle@123') {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const MyApp(),
+                        ));
+                      }
+                    }
                   },
                   child: Container(
                     height: 50,
