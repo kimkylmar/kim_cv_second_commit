@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kim_cv/main.dart';
+import 'package:kim_cv/sign_up.dart';
 
 class FormScreen extends StatefulWidget {
   @override
@@ -9,7 +10,7 @@ class FormScreen extends StatefulWidget {
 class _FormScreenState extends State<FormScreen> {
   final _formfield = GlobalKey<FormState>();
   final emailContoller = TextEditingController();
-  final passContoller = TextEditingController();
+  final passController = TextEditingController();
   bool passToggle = true;
 
   @override
@@ -62,7 +63,7 @@ class _FormScreenState extends State<FormScreen> {
                 SizedBox(height: 20),
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
-                  controller: passContoller,
+                  controller: passController,
                   obscureText: passToggle,
                   decoration: InputDecoration(
                     labelText: "Password",
@@ -81,7 +82,7 @@ class _FormScreenState extends State<FormScreen> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Enter Password";
-                    } else if (passContoller.text.length < 6) {
+                    } else if (passController.text.length < 6) {
                       return "Password should be 6 characters and up";
                     } else if (!RegExp(
                             r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$')
@@ -95,7 +96,7 @@ class _FormScreenState extends State<FormScreen> {
                   onTap: () {
                     if (_formfield.currentState?.validate() == true) {
                       if (emailContoller.text == 'kimkyle@email.com' &&
-                          passContoller.text == 'Kimkyle@123') {
+                          passController.text == 'Kimkyle@123') {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const MyApp(),
                         ));
@@ -127,13 +128,16 @@ class _FormScreenState extends State<FormScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Already have an account?",
+                      "Don't have an account?",
                       style: TextStyle(
                         fontSize: 16,
                       ),
                     ),
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => signUp()));
+                        },
                         child: Text(
                           "Sign Up",
                           style: TextStyle(
