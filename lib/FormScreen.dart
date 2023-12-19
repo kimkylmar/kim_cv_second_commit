@@ -55,12 +55,12 @@ class _FormScreenState extends State<FormScreen> {
                     if (value!.isEmpty) {
                       return "Enter Email";
                     }
-                    bool emailValid = RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(value);
-                    if (!emailValid) {
-                      return "Enter valid email";
-                    }
+                    // bool emailValid = RegExp(
+                    //         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    //     .hasMatch(value);
+                    // if (!emailValid) {
+                    //   return "Enter valid email";
+                    // }
                   },
                 ),
                 SizedBox(height: 20),
