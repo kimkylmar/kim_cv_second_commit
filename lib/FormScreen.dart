@@ -100,7 +100,7 @@ class _FormScreenState extends State<FormScreen> {
                     if (_formfield.currentState?.validate() == true) {
                       var response = await http.post(
                         Uri.parse(
-                            'http://localhost/registered_users/login.php'),
+                            'http://10.10.10.167/registered_users/login.php'),
                         body: {
                           'username': emailContoller.text,
                           'pass': passController.text,
@@ -160,7 +160,7 @@ class _FormScreenState extends State<FormScreen> {
                     TextButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => signUp()));
+                              builder: (context) => SignUp()));
                         },
                         child: Text(
                           "Sign Up",

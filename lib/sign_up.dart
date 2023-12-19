@@ -4,76 +4,23 @@ import 'package:http/http.dart' as http;
 
 import 'dart:convert';
 
-class signUp extends StatefulWidget {
+class SignUp extends StatefulWidget {
   @override
-  State<signUp> createState() => _signUpState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _signUpState extends State<signUp> {
+class _SignUpState extends State<SignUp> {
   final _formfield = GlobalKey<FormState>();
   TextEditingController usernameController = TextEditingController();
   TextEditingController passController = TextEditingController();
   TextEditingController confirmPassController = TextEditingController();
 
   bool passToggle = true;
-
-  String passwordErrorText = "";
-  String usernameErrorText = "";
-
-  // Future<void> _signIn() async {
-  //   // Perform password validation
-  //   if (!_validatePassword(passController.text)) {
-  //     setState(() {
-  //       passwordErrorText =
-  //           'Password must contain capital letters, numbers, special characters, and be at least 8 characters long.';
-  //     });
-  //     return;
-  //   } else {
-  //     setState(() {
-  //       passwordErrorText = '';
-  //     });
-  //   }
-
-  //   // Perform username validation
-  //   if (!_validateUsername(usernameController.text)) {
-  //     setState(() {
-  //       usernameErrorText = 'Username must end with "@gmail.com"';
-  //     });
-  //     return;
-  //   } else {
-  //     setState(() {
-  //       usernameErrorText = '';
-  //     });
-  //   }
-
-  //   // Proceed with signup
-  //   final response = await http.post(
-  //     Uri.parse('http://localhost/registered_users/signup.php'),
-  //     body: {
-  //       'username': usernameController.text,
-  //       'pass': passController.text,
-  //     },
-  //   );
-
-  //   print('Server Response: ${response.body}');
-  //   if (response.statusCode == 200) {
-  //     final result = jsonDecode(response.body);
-  //     print(result); // Print the entire response for debugging
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text(result['message']),
-  //       ),
-  //     );
-  //   } else {
-  //     // Handle errors
-  //     print('Error: ${response.statusCode}');
-  //     print('Response body: ${response.body}');
-  //   }
-  // }
+  bool passToggle1 = true;
 
   Future<void> _signIn() async {
     final response = await http.post(
-      Uri.parse('http://localhost/registered_users/signup.php'),
+      Uri.parse('http://10.10.10.167/registered_users/signup.php'),
       body: {
         'username': usernameController.text,
         'pass': passController.text,
@@ -89,6 +36,9 @@ class _signUpState extends State<signUp> {
           content: Text(result['message']),
         ),
       );
+      // Navigate to login page on successful signup
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => FormScreen()));
     } else {
       // Handle errors
       print('Error: ${response.statusCode}');
@@ -103,13 +53,6 @@ class _signUpState extends State<signUp> {
     RegExp passwordRegExp =
         RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
     return passwordRegExp.hasMatch(password);
-  }
-
-  // Username validation function
-  bool _validateUsername(String username) {
-    // Add your username validation logic here
-    // For example, requiring the username to end with "@gmail.com"
-    return username.endsWith('@gmail.com');
   }
 
   @override
@@ -142,11 +85,12 @@ class _signUpState extends State<signUp> {
                     prefixIcon: Icon(Icons.email),
                   ),
                 ),
+
                 //space
                 SizedBox(height: 20),
                 //space
 
-                //password field
+                //add pass
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   controller: passController,
@@ -173,7 +117,11 @@ class _signUpState extends State<signUp> {
                     return null;
                   },
                 ),
+
+                //space
                 SizedBox(height: 20),
+
+                //confirm pass
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   controller: confirmPassController,
@@ -185,7 +133,7 @@ class _signUpState extends State<signUp> {
                     suffix: InkWell(
                       onTap: () {
                         setState(() {
-                          passToggle = !passToggle;
+                          passToggle1 = !passToggle1;
                         });
                       },
                       child: Icon(
@@ -239,15 +187,19 @@ class _signUpState extends State<signUp> {
                       ),
                     ),
                     TextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => FormScreen()));
-                        },
-                        child: const Text(
-                          "Log in",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        )),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => FormScreen(),
+                        ));
+                      },
+                      child: const Text(
+                        "Log in",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ],
                 )
               ],
