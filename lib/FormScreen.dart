@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kim_cv/main.dart';
 import 'package:kim_cv/sign_up.dart';
+import 'package:http/http.dart' as http;
+
+import 'dart:convert';
 
 class FormScreen extends StatefulWidget {
   @override
@@ -33,7 +36,7 @@ class _FormScreenState extends State<FormScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   backgroundImage: AssetImage(
                     'images/pic.jpg',
                   ),
@@ -43,7 +46,7 @@ class _FormScreenState extends State<FormScreen> {
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   controller: emailContoller,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Email or Username",
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.email),
@@ -93,14 +96,35 @@ class _FormScreenState extends State<FormScreen> {
                 ),
                 SizedBox(height: 50),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
                     if (_formfield.currentState?.validate() == true) {
-                      if (emailContoller.text == 'kimkyle@email.com' &&
-                          passController.text == 'Kimkyle@123') {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const MyApp(),
-                        ));
+                      var response = await http.post(
+                        Uri.parse(
+                            'http://localhost/registered_users/login.php'),
+                        body: {
+                          'username': emailContoller.text,
+                          'pass': passController.text,
+                        },
+                      );
+
+                      if (response.statusCode == 200) {
+                        final result = jsonDecode(response.body);
+
+                        if (result['success'] == true) {
+                          // Login successful, navigate to the next screen
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const MyApp(),
+                          ));
+                        } else {
+                          // Login failed
+                          print('Login failed: ${result['message']}');
+                        }
+                      } else {
+                        // Handle non-200 status code (e.g., server error)
+                        print('Server error: ${response.statusCode}');
                       }
+                    } else {
+                      print('Form validation failed');
                     }
                   },
                   child: Container(

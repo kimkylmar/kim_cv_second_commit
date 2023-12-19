@@ -6,10 +6,10 @@ import 'dart:convert';
 
 class signUp extends StatefulWidget {
   @override
-  State<signUp> createState() => _signUpPageState();
+  State<signUp> createState() => _signUpState();
 }
 
-class _signUpPageState extends State<signUp> {
+class _signUpState extends State<signUp> {
   final _formfield = GlobalKey<FormState>();
   TextEditingController usernameController = TextEditingController();
   TextEditingController passController = TextEditingController();
@@ -18,44 +18,69 @@ class _signUpPageState extends State<signUp> {
   String passwordErrorText = "";
   String usernameErrorText = "";
 
+  // Future<void> _signIn() async {
+  //   // Perform password validation
+  //   if (!_validatePassword(passController.text)) {
+  //     setState(() {
+  //       passwordErrorText =
+  //           'Password must contain capital letters, numbers, special characters, and be at least 8 characters long.';
+  //     });
+  //     return;
+  //   } else {
+  //     setState(() {
+  //       passwordErrorText = '';
+  //     });
+  //   }
+
+  //   // Perform username validation
+  //   if (!_validateUsername(usernameController.text)) {
+  //     setState(() {
+  //       usernameErrorText = 'Username must end with "@gmail.com"';
+  //     });
+  //     return;
+  //   } else {
+  //     setState(() {
+  //       usernameErrorText = '';
+  //     });
+  //   }
+
+  //   // Proceed with signup
+  //   final response = await http.post(
+  //     Uri.parse('http://localhost/registered_users/signup.php'),
+  //     body: {
+  //       'username': usernameController.text,
+  //       'pass': passController.text,
+  //     },
+  //   );
+
+  //   print('Server Response: ${response.body}');
+  //   if (response.statusCode == 200) {
+  //     final result = jsonDecode(response.body);
+  //     print(result); // Print the entire response for debugging
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Text(result['message']),
+  //       ),
+  //     );
+  //   } else {
+  //     // Handle errors
+  //     print('Error: ${response.statusCode}');
+  //     print('Response body: ${response.body}');
+  //   }
+  // }
   Future<void> _signIn() async {
-    // Perform password validation
-    if (!_validatePassword(passController.text)) {
-      setState(() {
-        passwordErrorText =
-            'Password must contain capital letters, numbers, special characters, and be at least 8 characters long.';
-      });
-      return;
-    } else {
-      setState(() {
-        passwordErrorText = '';
-      });
-    }
-
-    // Perform username validation
-    if (!_validateUsername(usernameController.text)) {
-      setState(() {
-        usernameErrorText = 'Username must end with "@gmail.com"';
-      });
-      return;
-    } else {
-      setState(() {
-        usernameErrorText = '';
-      });
-    }
-
-    // Proceed with signup
     final response = await http.post(
-      Uri.parse('http://xampp/htdocs/registered_users/signup.php'),
+      Uri.parse('http://localhost/registered_users/signup.php'),
       body: {
         'username': usernameController.text,
         'pass': passController.text,
       },
     );
 
+    print('Response: ${response.statusCode} - ${response.body}');
+
     if (response.statusCode == 200) {
       final result = jsonDecode(response.body);
-      // Display a message to the user based on the response from the server
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(result['message']),
@@ -64,6 +89,7 @@ class _signUpPageState extends State<signUp> {
     } else {
       // Handle errors
       print('Error: ${response.statusCode}');
+      print('Response body: ${response.body}');
     }
   }
 
