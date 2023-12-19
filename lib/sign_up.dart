@@ -13,6 +13,8 @@ class _signUpState extends State<signUp> {
   final _formfield = GlobalKey<FormState>();
   TextEditingController usernameController = TextEditingController();
   TextEditingController passController = TextEditingController();
+  TextEditingController confirmPassController = TextEditingController();
+
   bool passToggle = true;
 
   String passwordErrorText = "";
@@ -68,6 +70,7 @@ class _signUpState extends State<signUp> {
   //     print('Response body: ${response.body}');
   //   }
   // }
+
   Future<void> _signIn() async {
     final response = await http.post(
       Uri.parse('http://localhost/registered_users/signup.php'),
@@ -138,19 +141,12 @@ class _signUpState extends State<signUp> {
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.email),
                   ),
-                  // validator: (value) {
-                  //   if (value!.isEmpty) {
-                  //     return "Enter Email";
-                  //   }
-                  //   bool emailValid = RegExp(
-                  //           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                  //       .hasMatch(value);
-                  //   if (!emailValid) {
-                  //     return "Enter valid email";
-                  //   }
-                  // },
                 ),
+                //space
                 SizedBox(height: 20),
+                //space
+
+                //password field
                 TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   controller: passController,
@@ -166,25 +162,51 @@ class _signUpState extends State<signUp> {
                         });
                       },
                       child: Icon(
-                          passToggle ? Icons.visibility : Icons.visibility_off),
+                        passToggle ? Icons.visibility : Icons.visibility_off,
+                      ),
                     ),
                   ),
-                  // validator: (value) {
-                  //   if (value!.isEmpty) {
-                  //     return "Enter Password";
-                  //   } else if (passContoller.text.length < 6) {
-                  //     return "Password should be 6 characters and up";
-                  //   } else if (!RegExp(
-                  //           r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$')
-                  //       .hasMatch(value)) {
-                  //     return "Password must meet the requirements";
-                  //   }
-                  // },
+                  validator: (value) {
+                    if (value != null && !_validatePassword(value)) {
+                      return 'Password must contain capital letters, numbers, special characters, and be at least 8 characters long.';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 20),
+                TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  controller: confirmPassController,
+                  obscureText: passToggle,
+                  decoration: InputDecoration(
+                    labelText: "Confirm Password",
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.lock),
+                    suffix: InkWell(
+                      onTap: () {
+                        setState(() {
+                          passToggle = !passToggle;
+                        });
+                      },
+                      child: Icon(
+                        passToggle ? Icons.visibility : Icons.visibility_off,
+                      ),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value != passController.text) {
+                      return 'Passwords do not match';
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(height: 50),
                 InkWell(
                   onTap: () {
-                    _signIn();
+                    if (_formfield.currentState != null &&
+                        _formfield.currentState!.validate()) {
+                      _signIn();
+                    }
                   },
                   child: Container(
                     height: 50,
